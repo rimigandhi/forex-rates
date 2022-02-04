@@ -156,9 +156,9 @@ addCurrencyPairs(){
    if(this.clickButton <= 10){
      if(this.fromCurrencies.value === this.toCurrencies.value){
         this.openSnackBar("Cunrrency values cannot be same");
-        this.fromCurrenciessModel = "";
-        this.toCurrenciessModel = "";
-        this.fromCurrencies.reset(); 
+        this.fromCurrenciessModel = "None";
+        this.toCurrenciessModel = "None";
+        this.fromCurrencies.reset();
         this.toCurrencies.reset();
      }
 
@@ -201,9 +201,9 @@ addCurrencyPairs(){
     .getForexRatesForPairs(this.matChipList).pipe(
       map(data => data), 
       catchError(err => {   
-        console.log(this.message)
         this.loading = false
-        this.openSnackBar(this.message);
+        this.openSnackBar("Something went wrong please try again later");
+        this.tableData = [];
         return throwError(err)
         })
       )
