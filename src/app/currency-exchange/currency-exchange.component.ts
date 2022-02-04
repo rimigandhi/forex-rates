@@ -116,8 +116,6 @@ const  currencies: Currency[] = [
   providers: [Sse]
 })
 export class CurrencyExchangeComponent implements OnInit {
-
-  showMessages = false
   loading = false
   tableData : ForextRates[] = [];
   message!: string
@@ -137,6 +135,7 @@ export class CurrencyExchangeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Constructor to builder form
   constructor(fb: FormBuilder, private ratesService : RatesService, private sse : Sse, private _snackBar: MatSnackBar) {
       this.currencyExchangeForm = fb.group({
       fromCurrencies: this.fromCurrencies,
@@ -145,12 +144,13 @@ export class CurrencyExchangeComponent implements OnInit {
     });
    
   }
-
+// Throw mat-error if currency pairs not selected
   getCurrencyFromError(){
     return 'Please choose currency pairs'
   }
   
-  
+
+// Add currency pairs for fetching forex rates
 addCurrencyPairs(){
     console.log("click button value is::"+this.clickButton)
    if(this.clickButton <= 10){
@@ -172,12 +172,14 @@ addCurrencyPairs(){
 
   }
 
+  // Clear all currency pairs i.e. all mat chips selected
   clearCurrencyPairs(){
     this.clickButton = 0;
     this.matChipList = [];
     this.tableData = [];
   }
 
+  // Remove mat chips if not needed
   remove(matChip: string): void {
     const index = this.matChipList.indexOf(matChip);
 
@@ -187,10 +189,12 @@ addCurrencyPairs(){
     this.clickButton--;
   }
 
+  // Throwing error using snack bar
   openSnackBar(message: string) {
    this.snackBarRef = this._snackBar.open(message, 'Delete');
   }
 
+  // Get Forex Rates API
    getForexRatesFromApi(){
     this.loading = true
     this.ratesService

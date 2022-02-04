@@ -11,7 +11,7 @@ export class Sse{
     EventSourcePolyfill: any;
     EventSource = NativeEventSource || EventSourcePolyfill;
 
-
+  // Tried using Server Side Event - But it onyl Accepts content type of application/json. 
     observeSse(sseUrl: string) : Observable<any> {
         return new Observable<any>(obs => {
             var es = new EventSourcePolyfill(sseUrl, {
