@@ -1,0 +1,31 @@
+.mat-raised-button.mat-success,
+.mat-flat-button.mat-success,
+.mat-fab.mat-success,
+.mat-mini-fab.mat-success {
+  color: #f0fff3;
+  background-color: #155724;
+}
+
+.mat-row:nth-child(even){
+  background-color: #e4f0ec;
+}
+
+.mat-row:nth-child(odd){
+  background-color:#ffffff;
+}
+.mat-header-row{
+  background-color: lightblue;
+}
+.mat-cell{
+  padding: 5px;
+}
+.mat-header-cell{
+  padding: 5px;
+  text-size-adjust: 12;
+}
+.mat-column-from {
+  flex: 0 0 30px;
+}
+.mat-column-to {
+  flex: 0 0 30px;
+}

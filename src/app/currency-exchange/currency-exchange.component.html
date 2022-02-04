@@ -1,0 +1,87 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+<form [formGroup]="currencyExchangeForm" fxLayout="column" fxLayoutAlign="center center" #f="ngForm" (ngSubmit)="getForexRatesFromApi()">
+    <h1 class="heading">Watch out for the Forex Rates!!!</h1>
+    <mat-form-field appearance="fill">
+      <mat-label>Currency From</mat-label>
+      <mat-select [formControl]="fromCurrencies" [(ngModel)]="fromCurrenciessModel">
+        <mat-option *ngFor="let currency of currencies" [value]="currency.symbol">
+          {{currency.symbol}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="fromCurrencies.invalid">{{getCurrencyFromError()}}</mat-error>
+      <mat-hint>You can add maximum ten currency pairs only at a time</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Currency To</mat-label>
+      <mat-select [formControl]="toCurrencies"  [(ngModel)]="toCurrenciessModel">
+        <mat-option *ngFor="let currency of currencies" [value]="currency.symbol">
+          {{currency.symbol}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="toCurrencies.invalid">{{getCurrencyFromError()}}</mat-error>
+      <mat-hint>You can add maximum ten currency pairs only at a time</mat-hint>
+    </mat-form-field>
+    <br/>
+    <div fxLayout="row" fxLayoutGap="20px">
+    <button mat-raised-button color="warn" type="button" (click)="addCurrencyPairs()" [disabled]="clickButton == 10">Add</button>
+    <button mat-raised-button color="warn" type="button" (click)="clearCurrencyPairs()" [disabled]="matChipList.length == 0">Clear values</button>
+  </div>
+  <br/>
+  <mat-chip-list aria-label="Currency Pair selection" >
+    <mat-chip 
+    *ngFor="let matChip of matChipList"
+    [selectable]="selectable"
+    [removable]="removable"
+    (removed)="remove(matChip)">
+    {{matChip}}
+    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+  </mat-chip>
+  </mat-chip-list>
+  <br/>
+    <button mat-raised-button color="primary" type="submit" [disabled]="matChipList.length == 0">Get Forex Exchange Rate</button>
+  </form>
+  <br/>
+  <br/>
+  <div fxLayout="column" fxLayoutAlign="center center">
+  <mat-spinner [diameter]="60" *ngIf="loading == true"></mat-spinner>
+</div>
+
+<div fxLayout="column" *ngIf="tableData.length > 0">
+  <div fxLayoutAlign="end start">
+    <button type="click" color="warn" mat-mini-fab aria-label="data refresh button" (click)="getForexRatesFromApi()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    </div>
+    <br/>
+    <mat-table [dataSource]="tableData">
+
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef [ngClass]="{accent:true}"> From </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.from}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef> To </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.to}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="bid">
+        <mat-header-cell *matHeaderCellDef> Bid </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.bid}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="ask">
+        <mat-header-cell *matHeaderCellDef> Ask </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.ask}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div> 
+</div>
